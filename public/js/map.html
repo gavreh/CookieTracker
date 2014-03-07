@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+  <title>Basemap Toggle</title>
+  <link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.8/js/esri/css/esri.css">
+  <style>
+    html, body, #map {
+      padding:0;
+      margin:0;
+      height:100%;
+    }
+    #BasemapToggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 50;
+    }
+  </style>
+  <script src="//js.arcgis.com/3.8/"></script>
+  <script>
+var map;
+    require([
+      "esri/map",
+      "esri/dijit/BasemapToggle",
+      "esri/InfoTemplate",
+      "esri/layers/FeatureLayer",
+      "dojo/domReady!"
+    ], function(
+      Map, BasemapToggle, InfoTemplate, FeatureLayer
+    )  {
+
+      map = new Map("map", {
+        center: [-90.274658203125, 38.61694335],
+        zoom: 7,
+        basemap: "topo"
+      });
+
+      var toggle = new BasemapToggle({
+        map: map,
+        basemap: "satellite"
+      }, "BasemapToggle");
+      toggle.startup();
+
+
+      var infoTemplate = new InfoTemplate("Attributes", "${*}");
+      var featureLayer = new FeatureLayer("http://localhost:3000/arcgis/Cookies/FeatureServer/0",{
+        mode: FeatureLayer.MODE_ONDEMAND,
+        infoTemplate: infoTemplate,
+        outFields: ["*"]
+      });
+      map.addLayer(featureLayer);
+    });
+  </script>
+</head>
+<body>
+  <div id="map" class="map">
+    <div id="BasemapToggle"></div>
+  </div>
+</body>
+</html>

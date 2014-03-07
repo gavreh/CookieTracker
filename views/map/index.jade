@@ -1,0 +1,15 @@
+extends ../../layouts/default
+
+block head
+  title Map
+
+block neck
+  link(rel='stylesheet', href='/views/about/index.min.css?#{cacheBreaker}')
+  link(rel='stylesheet', href='http://js.arcgis.com/3.8/js/esri/css/esri.css?#{cacheBreaker}')
+
+block body
+  div#map
+
+block feet
+  script(src='//js.arcgis.com/3.8' data-dojo-config='async: true')
+  script(src='/views/map/index.min.js?#{cacheBreaker}')

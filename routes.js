@@ -33,6 +33,7 @@ exports = module.exports = function(app, passport) {
   app.get('/', require('./views/index').init);
   app.get('/newOrder/', require('./views/newOrder/index').init);
   app.post('/newOrder/', require('./views/newOrder/index').newOrderPost);
+  app.get('/map/', require('./views/map/index').init);
   app.get('/contact/', require('./views/contact/index').init);
   app.post('/contact/', require('./views/contact/index').sendMessage);
 
