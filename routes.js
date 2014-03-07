@@ -200,11 +200,12 @@ exports = module.exports = function(app, passport) {
 
   app.all('/arcgis*', ensureAuthenticated); // Any route that begins with /arcgis should be authenticated.
   // User will be redirected to login page if not.
-  app.get('/arcgis/*/FeatureServer*', require('./views/middleware/index').fsInfo);
+
   app.get('/arcgis/*/query', require('./views/middleware/index').query);
   app.post('/arcgis/*/addFeatures', require('./views/middleware/index').addFeatures);
   app.post('/arcgis/*/updateFeatures', require('./views/middleware/index').updateFeatures);
   app.post('/arcgis/*/deleteFeatures', require('./views/middleware/index').deleteFeatures);
+  app.get('/arcgis/*/FeatureServer*', require('./views/middleware/index').fsInfo);
 
   //route not found
   app.all('*', require('./views/http/index').http404);
