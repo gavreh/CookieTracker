@@ -31,7 +31,8 @@ function ensureAccount(req, res, next) {
 exports = module.exports = function(app, passport) {
   //front end
   app.get('/', require('./views/index').init);
-  app.get('/about/', require('./views/about/index').init);
+  app.get('/newOrder/', require('./views/newOrder/index').init);
+  app.post('/newOrder/', require('./views/newOrder/index').newOrderPost);
   app.get('/contact/', require('./views/contact/index').init);
   app.post('/contact/', require('./views/contact/index').sendMessage);
 
@@ -41,13 +42,23 @@ exports = module.exports = function(app, passport) {
 
   //social sign up
   app.post('/signup/social/', require('./views/signup/index').signupSocial);
-  app.get('/signup/twitter/', passport.authenticate('twitter', { callbackURL: '/signup/twitter/callback/' }));
+  app.get('/signup/twitter/', passport.authenticate('twitter', {
+    callbackURL: '/signup/twitter/callback/'
+  }));
   app.get('/signup/twitter/callback/', require('./views/signup/index').signupTwitter);
-  app.get('/signup/github/', passport.authenticate('github', { callbackURL: '/signup/github/callback/', scope: ['user:email'] }));
+  app.get('/signup/github/', passport.authenticate('github', {
+    callbackURL: '/signup/github/callback/',
+    scope: ['user:email']
+  }));
   app.get('/signup/github/callback/', require('./views/signup/index').signupGitHub);
-  app.get('/signup/facebook/', passport.authenticate('facebook', { callbackURL: '/signup/facebook/callback/', scope: ['email'] }));
+  app.get('/signup/facebook/', passport.authenticate('facebook', {
+    callbackURL: '/signup/facebook/callback/',
+    scope: ['email']
+  }));
   app.get('/signup/facebook/callback/', require('./views/signup/index').signupFacebook);
-  app.get('/signup/arcgis/', passport.authenticate('arcgis', {callbackURL: '/signup/arcgis/callback/'}));
+  app.get('/signup/arcgis/', passport.authenticate('arcgis', {
+    callbackURL: '/signup/arcgis/callback/'
+  }));
   app.get('/signup/arcgis/callback/', require('./views/signup/index').signupArcGIS);
 
   //login/out
@@ -61,13 +72,21 @@ exports = module.exports = function(app, passport) {
   app.get('/logout/', require('./views/logout/index').init);
 
   //social login
-  app.get('/login/twitter/', passport.authenticate('twitter', { callbackURL: '/login/twitter/callback/' }));
+  app.get('/login/twitter/', passport.authenticate('twitter', {
+    callbackURL: '/login/twitter/callback/'
+  }));
   app.get('/login/twitter/callback/', require('./views/login/index').loginTwitter);
-  app.get('/login/github/', passport.authenticate('github', { callbackURL: '/login/github/callback/' }));
+  app.get('/login/github/', passport.authenticate('github', {
+    callbackURL: '/login/github/callback/'
+  }));
   app.get('/login/github/callback/', require('./views/login/index').loginGitHub);
-  app.get('/login/facebook/', passport.authenticate('facebook', { callbackURL: '/login/facebook/callback/' }));
+  app.get('/login/facebook/', passport.authenticate('facebook', {
+    callbackURL: '/login/facebook/callback/'
+  }));
   app.get('/login/facebook/callback/', require('./views/login/index').loginFacebook);
-  app.get('/login/arcgis/', passport.authenticate('arcgis', {callbackURL: '/login/arcgis/callback/'}));
+  app.get('/login/arcgis/', passport.authenticate('arcgis', {
+    callbackURL: '/login/arcgis/callback/'
+  }));
   app.get('/login/arcgis/callback/', require('./views/login/index').loginArcGIS);
 
   //admin
@@ -158,21 +177,29 @@ exports = module.exports = function(app, passport) {
   app.put('/account/settings/password/', require('./views/account/settings/index').password);
 
   //account > settings > social
-  app.get('/account/settings/twitter/', passport.authenticate('twitter', { callbackURL: '/account/settings/twitter/callback/' }));
+  app.get('/account/settings/twitter/', passport.authenticate('twitter', {
+    callbackURL: '/account/settings/twitter/callback/'
+  }));
   app.get('/account/settings/twitter/callback/', require('./views/account/settings/index').connectTwitter);
   app.get('/account/settings/twitter/disconnect/', require('./views/account/settings/index').disconnectTwitter);
-  app.get('/account/settings/github/', passport.authenticate('github', { callbackURL: '/account/settings/github/callback/' }));
+  app.get('/account/settings/github/', passport.authenticate('github', {
+    callbackURL: '/account/settings/github/callback/'
+  }));
   app.get('/account/settings/github/callback/', require('./views/account/settings/index').connectGitHub);
   app.get('/account/settings/github/disconnect/', require('./views/account/settings/index').disconnectGitHub);
-  app.get('/account/settings/facebook/', passport.authenticate('facebook', { callbackURL: '/account/settings/facebook/callback/' }));
+  app.get('/account/settings/facebook/', passport.authenticate('facebook', {
+    callbackURL: '/account/settings/facebook/callback/'
+  }));
   app.get('/account/settings/facebook/callback/', require('./views/account/settings/index').connectFacebook);
   app.get('/account/settings/facebook/disconnect/', require('./views/account/settings/index').disconnectFacebook);
-  app.get('/account/settings/arcgis/', passport.authenticate('arcgis', {callbackURL: '/account/settings/arcgis/callback/'}));
+  app.get('/account/settings/arcgis/', passport.authenticate('arcgis', {
+    callbackURL: '/account/settings/arcgis/callback/'
+  }));
   app.get('/account/settings/arcgis/callback/', require('./views/account/settings/index').connectArcGIS);
   app.get('/account/settings/arcgis/disconnect/', require('./views/account/settings/index').disconnectArcGIS);
 
   app.all('/arcgis*', ensureAuthenticated); // Any route that begins with /arcgis should be authenticated.
-                                            // User will be redirected to login page if not.
+  // User will be redirected to login page if not.
   app.get('/arcgis/*/query', require('./views/middleware/index').query);
   app.post('/arcgis/*/addFeatures', require('./views/middleware/index').addFeatures);
   app.post('/arcgis/*/updateFeatures', require('./views/middleware/index').updateFeatures);

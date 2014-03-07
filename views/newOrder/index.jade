@@ -1,0 +1,66 @@
+extends ../../layouts/default
+
+block head
+  title New Order
+
+block feet
+  script(src='/views/newOrder/index.min.js?#{cacheBreaker}')
+
+block body
+  div.row
+    div.col-sm-6
+      div.page-header
+        h1 New Order
+      div#newOrder
+
+  script(type='text/template', id='tmpl-neworder')
+    form
+      div.alerts
+        |<% _.each(errors, function(err) { %>
+        div.alert.alert-danger.alert-dismissable
+          button.close(type='button', data-dismiss='alert') &times;
+          |<%- err %>
+        |<% }); %>
+        |<% if (success) { %>
+        div.alert.alert-info.alert-dismissable
+          button.close(type='button', data-dismiss='alert') &times;
+          | We have received your message. Thank you.
+        |<% } %>
+      |<% if (!success) { %>
+      div.form-group(class!='<%- errfor.name ? "has-error" : "" %>')
+        label.control-label Customer Name:
+        input.form-control(type='text', name='name', value!='<%= name %>')
+        span.help-block <%- errfor.name %>
+
+      div.form-group(class!='<%- errfor.address ? "has-error" : "" %>')
+        label.control-label Customer Address:
+        input.form-control(type='text', name='address', value!='<%= address %>')
+        span.help-block <%- errfor.address %>
+      div.form-group(class!='<%- errfor.email ? "has-error" : "" %>')
+        label.control-label Customer Email:
+        input.form-control(type='text', name='email', value!='<%= email %>')
+        span.help-block <%- errfor.email %>
+      div.form-group(class!='<%- errfor.phone ? "has-error" : "" %>')
+        label.control-label Customer Phone Number:
+        input.form-control(type='text', name='phone', value!='<%= phone %>')
+        span.help-block <%- errfor.phone %>
+      div.form-group(class!='<%- errfor.paid ? "has-error" : "" %>')
+        label.control-label Customer has Paid:
+        // input.form-control(type='text', name='paid', value!='<%= paid %>')
+        select(name='paid')
+          option(value='0') No
+          option(value='1') Yes
+        span.help-block <%- errfor.paid %>
+      div.form-group(class!='<%- errfor.location ? "has-error" : "" %>')
+        label.control-label Lat,Lon:
+        input.form-control(type='text', name='location')
+        span.help-block <%- errfor.location %>
+      div.form-group
+        button.btn.btn-primary.btn-geolocate(type='button') Get Current Location
+      div.form-group(class!='<%- errfor.cookieorder ? "has-error" : "" %>')
+        label.control-label Order:
+        textarea.form-control(name='cookieorder', rows='5') <%= cookieorder %>
+        span.help-block <%- errfor.cookieorder %>
+      div.form-group
+        button.btn.btn-primary.btn-contact(type='button') Send Message
+      |<% } %>

@@ -45,6 +45,7 @@ app.configure(function(){
   app.set('system-email', config.systemEmail);
   app.set('crypto-key', config.cryptoKey);
   app.set('require-account-verification', config.requireAccountVerification);
+  app.set('addFeatureAddress', config.addFeatureAddress);
 
   //smtp settings
   app.set('smtp-from-name', config.smtp.from.name);

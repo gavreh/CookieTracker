@@ -32,6 +32,7 @@ exports.query = function(req, res) {
 };
 
 exports.addFeatures = function(req, res) {
+	console.log("addFeatures", req.body);
 	var query = req.body;
 	var subUrl = util.getSubUrl(req.url);
 	util.determineIfServiceInSystem(req, req.url, function(didMatch) {
@@ -47,10 +48,12 @@ exports.addFeatures = function(req, res) {
 						query.features = JSON.stringify(features);
 
 						var requestObj = {
+							"rejectUnauthorized": false,
 							"method": "POST",
 							form: query,
 							uri: didMatch.serviceUrl + subUrl
 						};
+						console.log("requestObj:", requestObj);
 						request(requestObj).pipe(res);
 					} else {
 						sendError(res, "Problem with request.");

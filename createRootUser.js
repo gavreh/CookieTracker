@@ -3,7 +3,7 @@
 // npm install mongojs
 
 // config:
-var email = 'spriggs.d@gmail.com';
+var email = 'grehkemper@esri.com';
 
 var mongojs = require('mongojs');
 var db = mongojs('blister', ['admingroups', 'admins', 'users']);
