@@ -3,10 +3,37 @@
 var util = require('./util'),
 	request = require('request');
 
-exports.query = function(req, res) {
+exports.fsInfo = function(req, res) {
+	console.log("fsInfo", req.url);
 	var query = req.query;
 	var subUrl = util.getSubUrl(req.url);
 	util.determineIfServiceInSystem(req, req.url, function(didMatch) {
+		console.log("determineIfServiceInSystem result:", didMatch);
+		if (didMatch && didMatch.userIdColumnName) {
+
+			var requestObj = {
+				"rejectUnauthorized": false,
+				"method": "GET",
+				qs: query,
+				uri: didMatch.serviceUrl + subUrl
+			};
+			console.log("requestObj:", requestObj);
+			request(requestObj).pipe(res);
+		} else {
+			res.json({
+				"success": false,
+				"message": "Problem with config."
+			});
+		}
+	});
+};
+
+exports.query = function(req, res) {
+	console.log("incoming query");
+	var query = req.query;
+	var subUrl = util.getSubUrl(req.url);
+	util.determineIfServiceInSystem(req, req.url, function(didMatch) {
+		console.log("determineIfServiceInSystem result:", didMatch);
 		if (didMatch && didMatch.userIdColumnName) {
 			// Build the query
 			if (query.hasOwnProperty('where')) {
@@ -17,10 +44,12 @@ exports.query = function(req, res) {
 			}
 
 			var requestObj = {
+				"rejectUnauthorized": false,
 				"method": "GET",
 				qs: query,
 				uri: didMatch.serviceUrl + subUrl
 			};
+			console.log("requestObj:", requestObj);
 			request(requestObj).pipe(res);
 		} else {
 			res.json({
