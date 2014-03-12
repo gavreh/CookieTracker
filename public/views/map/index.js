@@ -26,7 +26,7 @@
         console.log("initMap");
         var map = new Map("map", {
           center: [-90.274658203125, 38.61694335],
-          zoom: 7,
+          zoom: 3,
           basemap: "topo"
         });
 
